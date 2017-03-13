@@ -6,31 +6,43 @@ from Tkinter import * #gives us access to everything in the Tkinter class
 import tkMessageBox 
 from PIL import Image, ImageTk
 
+def ebutton():
+    e = evalue.get()
+    
+def nbutton():
+    n = nvalue.get()
+    
+def nbutton2():
+    N = nvalue2.get()
+    
+def dbutton():
+    d = dvalue.get()
+
 def encrypt_message(msg):
+    ebutton()
+    nbutton()
     for letter in msg:
         numerize = ord(letter)
         encrypt = pow(numerize, e, n)
         encrypted_msg += unichr(encrypt) 
-    return encrypted_msg
-
-def buttonpress1():
-    entrytxt = T.get(1.0,END)
-    print entrytxt
-    tkMessageBox.showinfo("You typed: ", entrytxt)
-    encrypt_message(entrytxt)
-    
+    T3.insert(encrypted_msg)
 def decrypt_message(msg):
+    dbutton()
+    nbutton2()
     for number in msg:
        numerize = ord(number)
        decrypt = pow(numerize, d, n)
        decrypted_msg += unichr(decrypt)
-    return decrypted_msg
+    T4.insert(decrypted_msg)
+def buttonpress1():
+    msg = T.get(1.0,END)
+    encrypt_message(msg)
     
 def buttonpress2():
-    entrytxt2 = T.get(1.0,END)
-    print entrytxt2
-    tkMessageBox.showinfo("You typed: ", entrytxt)
-    decrypt_message(entrytxt2)
+    msg2 = T2.get(1.0,END)
+    decrypt_message(msg2)
+    
+    
     
 def openfileR():
     clearlist2()
@@ -54,32 +66,67 @@ root.title = ("GUI Program")
 scrollbar = Scrollbar(root, orient= VERTICAL)
 T = Text(root, height=20, width=30, yscrollcommand=scrollbar.set)
 scrollbar.config(command=T.yview) 
-scrollbar.grid(row=10, column=2, rowspan=20, sticky= NS)
+scrollbar.grid(row=10, column=3, rowspan=5, sticky= NS)
 T.pack()
-T.grid(row=10, column=0, rowspan=10, columnspan=2)
-T.insert(END, "place public key here \nkill all your friends \nand fake your death\n")
+T.grid(row=10, column=1, rowspan=5, columnspan=2)
+T.insert(END, "place message here \nkill all your friends \nand fake your death\n")
 
 scrollbar2 = Scrollbar(root, orient= VERTICAL)
 T2 = Text(root, height=20, width=30, yscrollcommand=scrollbar2.set)
 scrollbar2.config(command=T2.yview) 
-scrollbar2.grid(row=10, column=6, rowspan=20, sticky= NS)
+scrollbar2.grid(row=10, column=7, rowspan=5, sticky= NS)
 T2.pack()
-T2.grid(row=10, column=4, rowspan=10, columnspan=2)
-T2.insert(END, "place private key here \nkill all your friends \nand fake your death\n")
+T2.grid(row=10, column=5, rowspan=5, columnspan=2)
+T2.insert(END, "place encrypted message here key here \nkill all your friends \nand fake your death\n")
 
-entry1 = Entry(root)
-entry1.grid(row=0,column= 0, columnspan=1)
-entry1.bind("<Return>", buttonpress1)
+scrollbar3 = Scrollbar(root, orient= VERTICAL)
+T3 = Text(root, height=20, width=30, yscrollcommand=scrollbar.set)
+scrollbar.config(command=T3.yview) 
+scrollbar.grid(row=16, column=3, rowspan=5, sticky= NS)
+T3.pack()
+T3.grid(row=16, column=1, rowspan=5, columnspan=2)
+T3.insert(END, "find encrypted message here \nkill all your friends \nand fake your death\n")
 
-entry2 = Entry(root)
-entry2.grid(row=1,column= 0, columnspan=1)
-entry2.bind("<Return>", buttonpress1)
+scrollbar4 = Scrollbar(root, orient= VERTICAL)
+T4 = Text(root, height=20, width=30, yscrollcommand=scrollbar2.set)
+scrollbar4.config(command=T4.yview) 
+scrollbar4.grid(row=16, column=7, rowspan=5, sticky= NS)
+T4.pack()
+T4.grid(row=16, column=5, rowspan=5, columnspan=2)
+T4.insert(END, "find decrypted message here key here \nkill all your friends \nand fake your death\n")
+
+
+elabel = Label(root, text ="e =", anchor=W)
+elabel.grid(row=0, column=0,)
+
+nlabel = Label(root, text ="n =", anchor=W)
+nlabel.grid(row=1, column=0,)
+
+dlabel = Label(root, text ="d =", anchor=W)
+dlabel.grid(row=0, column=4,)
+
+nlabel2 = Label(root, text ="n =", anchor=W)
+nlabel2.grid(row=1, column=4,)
+
+dvalue = Entry(root)
+dvalue.grid(row=0,column= 5, columnspan=1)
+
+
+nvalue2 = Entry(root)
+nvalue2.grid(row=1,column= 5, columnspan=1)
+
+evalue = Entry(root)
+evalue.grid(row=0,column= 1, columnspan=1)
+
+nvalue = Entry(root)
+nvalue.grid(row=1,column= 1, columnspan=1)
+
 
 button1 = Button(root, text="encryption", command=buttonpress1)
-button1.grid(row=2, column=0)
+button1.grid(row=2, column=1)
 
 button2 = Button(root, text="decryption", command=buttonpress2)
-button2.grid(row=2, column=4)
+button2.grid(row=2, column=5)
 
 scrollbar = Scrollbar(root, orient= VERTICAL)
 
