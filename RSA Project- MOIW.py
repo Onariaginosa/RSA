@@ -6,37 +6,62 @@ from Tkinter import * #gives us access to everything in the Tkinter class
 import tkMessageBox 
 from PIL import Image, ImageTk
 
-def ebutton():
-    e = evalue.get()
+
+LUT_encryption = dict()
+LUT_decryption = dict()
+
+def copye():
+    texte = T3.get(1.0,END)
+
+    root2.clipboard_clear()
+    root2.clipboard_append(texte)
+    clip_text = root.clipboard_get()
+    T3.delete('1.0', END)
+    T3.insert(END, clip_text)
     
-def nbutton():
-    n = nvalue.get()
-    
-def nbutton2():
-    N = nvalue2.get()
-    
-def dbutton():
-    d = dvalue.get()
+def copyd():
+    textd = T4.get(1.0,END)
+
+    root2.clipboard_clear()
+    root2.clipboard_append(textd)
+    clip_text = root.clipboard_get()
+    T4.delete('1.0', END)
+    T4.insert(END, clip_text)
+
 
 def encrypt_message(msg):
-    ebutton()
-    nbutton()
+    e = int(evalue.get())
+    n = int(nvalue.get())
+    encrypted_msg = ""
     for letter in msg:
-        numerize = ord(letter)
-        encrypt = pow(numerize, e, n)
-        encrypted_msg += unichr(encrypt) 
-    T3.insert(encrypted_msg)
+        if letter in LUT_encryption:
+            encrypted_msg += LUT_encryption[letter] 
+        else :
+            numerize = ord(letter) 
+            encrypt = pow(numerize, e, n)
+            LUT_encryption[letter] = unichr(encrypt)
+            encrypted_msg += unichr(encrypt) 
+    T3.delete('1.0', END)
+    T3.insert(END, encrypted_msg)
+
 def decrypt_message(msg):
-    dbutton()
-    nbutton2()
+    d = int(dvalue.get())
+    n = int(nvalue2.get())
+    decrypted_msg = ""
     for number in msg:
-       numerize = ord(number)
-       decrypt = pow(numerize, d, n)
-       decrypted_msg += unichr(decrypt)
-    T4.insert(decrypted_msg)
+        if number in LUT_decryption:
+            decrypted_msg += LUT_decryption[number]
+            print ("joe")
+        else :
+            numerize = ord(number)
+            decrypt = pow(numerize, d, n)
+            LUT_encryption[number] = unichr(decrypt)
+            decrypted_msg += unichr(decrypt)
+    T4.delete('1.0', END)
+    T4.insert(END, decrypted_msg)
 def buttonpress1():
-    msg = T.get(1.0,END)
-    encrypt_message(msg)
+    mesg = T.get(1.0,END)
+    encrypt_message(mesg)
     
 def buttonpress2():
     msg2 = T2.get(1.0,END)
@@ -63,6 +88,10 @@ def openfileW():
 root = Tk() #gives us a blank canvas object to work with
 root.title = ("GUI Program")
 
+root2 = Tk()
+root2.withdraw()
+
+
 scrollbar = Scrollbar(root, orient= VERTICAL)
 T = Text(root, height=20, width=30, yscrollcommand=scrollbar.set)
 scrollbar.config(command=T.yview) 
@@ -80,15 +109,15 @@ T2.grid(row=10, column=5, rowspan=5, columnspan=2)
 T2.insert(END, "place encrypted message here key here \nkill all your friends \nand fake your death\n")
 
 scrollbar3 = Scrollbar(root, orient= VERTICAL)
-T3 = Text(root, height=20, width=30, yscrollcommand=scrollbar.set)
-scrollbar.config(command=T3.yview) 
-scrollbar.grid(row=16, column=3, rowspan=5, sticky= NS)
+T3 = Text(root, height=20, width=30, yscrollcommand=scrollbar3.set)
+scrollbar3.config(command=T3.yview) 
+scrollbar3.grid(row=16, column=3, rowspan=5, sticky= NS)
 T3.pack()
 T3.grid(row=16, column=1, rowspan=5, columnspan=2)
 T3.insert(END, "find encrypted message here \nkill all your friends \nand fake your death\n")
 
 scrollbar4 = Scrollbar(root, orient= VERTICAL)
-T4 = Text(root, height=20, width=30, yscrollcommand=scrollbar2.set)
+T4 = Text(root, height=20, width=30, yscrollcommand=scrollbar4.set)
 scrollbar4.config(command=T4.yview) 
 scrollbar4.grid(row=16, column=7, rowspan=5, sticky= NS)
 T4.pack()
@@ -127,6 +156,15 @@ button1.grid(row=2, column=1)
 
 button2 = Button(root, text="decryption", command=buttonpress2)
 button2.grid(row=2, column=5)
+
+buttonce = Button(root, text="copy encryption", command=copye)
+buttonce.grid(row=3, column=1)
+
+buttoncd= Button(root, text="copy decryption", command=copyd)
+buttoncd.grid(row=3, column=5)
+
+
+
 
 scrollbar = Scrollbar(root, orient= VERTICAL)
 
