@@ -41,6 +41,7 @@ def encrypt_message(msg):
             encrypt = pow(numerize, e, n)
             LUT_encryption[letter] = unichr(encrypt)
             encrypted_msg += unichr(encrypt) 
+    LUT_encryption.clear()
     T3.delete('1.0', END)
     T3.insert(END, encrypted_msg)
 
@@ -51,12 +52,12 @@ def decrypt_message(msg):
     for number in msg:
         if number in LUT_decryption:
             decrypted_msg += LUT_decryption[number]
-            print ("joe")
         else :
             numerize = ord(number)
             decrypt = pow(numerize, d, n)
-            LUT_encryption[number] = unichr(decrypt)
+            LUT_decryption[number] = unichr(decrypt)
             decrypted_msg += unichr(decrypt)
+    LUT_decryption.clear()
     T4.delete('1.0', END)
     T4.insert(END, decrypted_msg)
 def buttonpress1():
@@ -67,23 +68,107 @@ def buttonpress2():
     msg2 = T2.get(1.0,END)
     decrypt_message(msg2)
     
-    
-    
+def clear():
+    evalue.delete(0, END)
+    nvalue.delete(0, END)  
+    dvalue.delete(0, END)
+    nvalue2.delete(0, END)
+    T.delete('1.0', END)
+    T2.delete('1.0', END)
+    T3.delete('1.0', END)
+    T4.delete('1.0', END)
 def openfileR():
-    clearlist2()
-    f = open("Readme.txt", "r")
-    for line in f:
+    E = open("E.txt", "r")
+    for line in E:
         name = line[0:-1]
-        listbox1.insert(END, name)
-    f.close()
-    size()
+        evalue.delete(0, END)
+        evalue.insert(END, name)
+    E.close()
+    N = open("N.txt", "r")
+    for line in N:
+        name = line[0:-1]
+        nvalue.delete(0, END)
+        nvalue.insert(END, name)
+    N.close()
+    D = open("D.txt", "r")
+    for line in D:
+        name = line[0:-1]
+        dvalue.delete(0, END)
+        dvalue.insert(END, name)
+    D.close()
+    N2 = open("N2.txt", "r")
+    for line in N2:
+        name = line[0:-1]
+        nvalue2.delete(0, END)
+        nvalue2.insert(END, name)
+    N2.close()
+    
+    Te = open("Textbox1.txt", "r")
+    i = Te.read()
+    T.delete('1.0', END)
+    T.insert(END,i)
+    Te.close()
+    
+    Te2 = open("Textbox2.txt", "r")
+    i = Te2.read()
+    T2.delete('1.0', END)
+    T2.insert(END, i)
+    Te2.close()
+    
+    Te3 = open("Textbox3.txt", "r")
+    i = Te3.read()
+    T3.delete('1.0', END)
+    T3.insert(END, i)
+    Te3.close()
+    
+    Te4 = open("Textbox4.txt", "r")
+    i = Te4.read()
+    T4.delete('1.0', END)
+    T4.insert(END, i)
+    Te4.close()
+
 
 def openfileW():
-    f = open("Readme.txt", 'w')
-    names = listbox1.get(0,END)
-    for i in names:    
-        f.write(i + "\n") 
-    f.close()
+    E = open("E.txt", "w")
+    names =evalue.get()
+    E.write(names + "\n")
+    E.close()
+    
+    N = open("N.txt", "w")
+    names =nvalue.get()
+    N.write(names + "\n")
+    N.close()
+    
+    D = open("D.txt", "w")
+    names =dvalue.get()
+    D.write(names + "\n")
+    D.close()
+    
+    N2 = open("N2.txt", "w")
+    names =nvalue2.get()
+    N2.write(names + "\n")
+    N2.close()
+    
+    Te = open("Textbox1.txt", "w")
+    i = T.get(1.0,END)
+    
+    Te.write(i)
+    Te.close()
+    
+    Te2 = open("Textbox2.txt", "w")
+    i2 = T2.get(1.0,END)
+    Te2.write(i2)
+    Te2.close()
+    
+    Te3 = open("Textbox3.txt", "w")
+    i3 = T3.get(1.0,END)
+    Te3.write(i3)
+    Te3.close()
+    
+    Te4 = open("Textbox4.txt", "w")
+    i4 = T4.get(1.0,END)
+    Te4.write(i4)
+    Te4.close()
 
 root = Tk() #gives us a blank canvas object to work with
 root.title = ("GUI Program")
@@ -171,10 +256,16 @@ scrollbar = Scrollbar(root, orient= VERTICAL)
 menubar = Menu(root)
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Open", command=openfileR)
-filemenu.add_command(label="Save", command=openfileW)
 filemenu.add_separator()
-filemenu.add_command(label="Exit", command=root.quit)
+filemenu.add_command(label="Save", command=openfileW)
 menubar.add_cascade(label="File", menu=filemenu)
+
+menubar2 = Menu(root)
+othermenu = Menu(menubar2, tearoff=0)
+othermenu.add_command(label="Exit", command=root.quit)
+othermenu.add_separator()
+othermenu.add_command(label="Clear all", command= clear)
+menubar.add_cascade(label="Other", menu=othermenu)
 
 root.config(menu=menubar)
 
