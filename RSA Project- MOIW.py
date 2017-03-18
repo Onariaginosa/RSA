@@ -18,6 +18,7 @@ def copye():
     clip_text = root.clipboard_get()
     T3.delete('1.0', END)
     T3.insert(END, clip_text)
+    tkMessageBox.showinfo("Encryption Copied", "You have copied the encrypted text")
     
 def copyd():
     textd = T4.get(1.0,END)
@@ -27,6 +28,7 @@ def copyd():
     clip_text = root.clipboard_get()
     T4.delete('1.0', END)
     T4.insert(END, clip_text)
+    tkMessageBox.showinfo("Decryption Copied", "You have copied the decrypted text")
 
 
 def encrypt_message(msg):
@@ -169,6 +171,7 @@ def openfileW():
     i4 = T4.get(1.0,END)
     Te4.write(i4)
     Te4.close()
+    tkMessageBox.showinfo("Saved", "You have successfully saved your values.")
 
 root = Tk() #gives us a blank canvas object to work with
 root.title = ("GUI Program")
